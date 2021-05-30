@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+const { program } = require("commander");
+const pkg = require("./package.json");
+const createApp = require('./lib/create-app');
+
+if (require.main === module) {
+  Main();  
+} else {
+  module.exports = { createApp }
+}
+
+///////////////////////////////////////////
+
+function Main() {
+  program
+    .name(pkg.name)
+    .version(pkg.version)
+    .arguments("<app_name>")
+    .action((appName) => createApp(appName, pkg))
+    .addHelpText(
+      "after",
+      `
+Examples:
+  $ npx create-rear-app Foobar
+  $ npx create-rear-app ~/GitHub/NewProject`
+    );
+
+  if (process.argv.length === 2) {
+    program.help();
+    process.exit(0);
+  }
+
+  program.parse();
+}
