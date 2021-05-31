@@ -15,8 +15,10 @@ function Main() {
   program
     .name(pkg.name)
     .version(pkg.version)
+    .option('-s, --sass', 'use sass')
+    .option('-n, --no-git', 'do not initialize git repository')
     .arguments("<app_name>")
-    .action((appName) => createApp(appName, pkg))
+    .action((appName, options) => createApp(appName, options, pkg))
     .addHelpText(
       "after",
       `
